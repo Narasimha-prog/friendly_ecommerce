@@ -1,0 +1,63 @@
+
+handling exceptions
+----------------
+Controller
+   ↓
+Application Service
+   ↓
+Domain (Entity / VO)
+   ❌ throws InvalidEmailException
+   ↑
+Application catches (optional)
+   ↑
+Controller maps → 400 Bad Request
+
+
+value Objects
+------------
+Compare Entity vs Value Object (this is key)
+🔹 Entity
+
+Identity = ID
+
+Properties can change
+
+Equality = ID-based
+
+User(id=123, email=a@b.com)
+User(id=123, email=c@d.com)  // SAME entity
+
+🔹 Value Object
+
+Identity = all its properties
+
+Immutable
+
+Equality = value-based
+
+Email("a@b.com") ≠ Email("c@d.com")
+Address("A", "B", "C", "D") ≠ Address("A", "B", "X", "D")
+
+
+Change any property → it’s a different value
+
+
+Entities have identity — the identity itself is often a Value Object.
+=========================
+User u1 = new User(new UserId(uuid1));
+User u2 = new User(new UserId(uuid1));
+
+u1.equals(u2); // true (same identity)
+
+
+Typical User Aggregate (realistic)
+User
+ ├─ UserId        (VO)
+ ├─ Name          (VO)
+ ├─ Email         (VO)
+ ├─ Password      (VO)
+ ├─ Address       (VO)
+ └─ Status        (enum)
+
+
+This is not overengineering — this is standard DDD.

@@ -1,3 +1,14 @@
 spring:
   application:
     name: friendly_ecommerce
+  #profile
+  profiles:
+    active: local
+
+  #db migarion/version control
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  #data jpa
+  jpa:
+    hibernate:
+      ddl-auto: update

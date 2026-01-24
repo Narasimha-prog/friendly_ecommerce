@@ -107,11 +107,13 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
+
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -133,6 +135,22 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>4.24.0</version>
+				<configuration>
+
+					<!-- Where to generate the file -->
+					<outputChangeLogFile>
+						src/main/resources/db/changelog/changes/001-initial-schema.xml
+					</outputChangeLogFile>
+					<url>jdbc:mysql://localhost:3307/ecommerce</url>
+					<username>lnreddy</username>
+					<password>lnreddy</password>
+					<driver>com.mysql.cj.jdbc.Driver</driver>
 				</configuration>
 			</plugin>
 		</plugins>
