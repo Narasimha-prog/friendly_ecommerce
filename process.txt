@@ -61,3 +61,12 @@ User
 
 
 This is not overengineering — this is standard DDD.
+
+
+[Your Application / System Logs] → [Logstash] → [Elasticsearch] → [Kibana]
+
+
+mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=friendly_ecommerce \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_3f33e2412f61a8796a8457af11bd0c0e0e77309b

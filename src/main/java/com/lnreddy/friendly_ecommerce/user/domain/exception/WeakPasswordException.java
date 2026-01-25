@@ -1,8 +1,8 @@
 package com.lnreddy.friendly_ecommerce.user.domain.exception;
 
 public class WeakPasswordException extends RuntimeException {
-    public WeakPasswordException(String value) {
+    public WeakPasswordException() {
 
-        super("Password is very week: "+value);
+        super("Password is very week: ");
     }
 }

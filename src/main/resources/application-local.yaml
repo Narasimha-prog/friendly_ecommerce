@@ -1,0 +1,7 @@
+
+
+spring:
+   datasource:
+     username: lnreddy
+     password: lnreddy
+     url:

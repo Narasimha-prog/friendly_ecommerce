@@ -12,3 +12,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+
+
+logging:
+  file:
+    name: /var/log/ecommerce/application.log
+  level:
+    root: INFO

@@ -1,5 +1,6 @@
 package com.lnreddy.friendly_ecommerce.user.domain.model.valueobject;
 
+import com.lnreddy.friendly_ecommerce.user.domain.exception.WeakPasswordException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public record Password(String hashed) {
