@@ -70,3 +70,14 @@ mvn clean verify sonar:sonar \
   -Dsonar.projectKey=friendly_ecommerce \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=sqp_3f33e2412f61a8796a8457af11bd0c0e0e77309b
+
+
+
+  mvn clean verify sonar:sonar \
+    -Dsonar.login=sqp_72b495fa33256b05d6766bb9314b1ecadbbd118d
+
+
+mvn sonar:sonar \
+  -Dsonar.projectKey=friendly_ecommerce \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_72b495fa33256b05d6766bb9314b1ecadbbd118d
