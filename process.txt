@@ -81,3 +81,17 @@ mvn sonar:sonar \
   -Dsonar.projectKey=friendly_ecommerce \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=sqp_72b495fa33256b05d6766bb9314b1ecadbbd118d
+
+
+
+Logstash starts
+   ↓
+Reads logstash.yml
+   ↓
+Authenticates to ES (license, monitoring)
+   ↓
+Startup OK?
+   ↓
+Loads pipelines
+   ↓
+Pipelines authenticate again (for data)

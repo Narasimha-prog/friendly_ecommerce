@@ -32,6 +32,7 @@ services:
       environment:
         - discovery.type=single-node
         - ES_JAVA_OPTS=-Xms1g -Xmx1g
+        - ELASTIC_PASSWORD=lnreddy
       ports:
         - "9200:9200"
       volumes:
@@ -49,6 +50,10 @@ services:
           - "5601:5601"
         depends_on:
           - elasticsearch
+        environment:
+          ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+          ELASTICSEARCH_USERNAME: kibana_system
+          ELASTICSEARCH_PASSWORD: BsY2VGkG1zgQtoA5GyES
         networks:
           - elk-network
 
@@ -60,8 +65,12 @@ services:
           container_name: logstash
           ports:
             - "5044:5044" # Beats input port
+          labels:
+            org.springframework.boot.readiness-check.tcp.disable: "true"
           volumes:
             - ./logstash/pipeline:/usr/share/logstash/pipeline
+            - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+            - /var/log/ecommerce:/var/log/ecommerce
           depends_on:
             - elasticsearch
           networks:
