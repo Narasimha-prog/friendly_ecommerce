@@ -95,3 +95,12 @@ Startup OK?
 Loads pipelines
    ↓
 Pipelines authenticate again (for data)
+
+
+
+Access Requirement	User	Response
+permitAll()	anonymous	200 OK
+authenticated()	anonymous	403 Forbidden
+hasRole("USER")	anonymous	403 Forbidden
+authenticated()	invalid token	401 Unauthorized
+hasRole("USER")	valid token, wrong role	403 Forbidden
