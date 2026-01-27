@@ -104,3 +104,76 @@ authenticated()	anonymous	403 Forbidden
 hasRole("USER")	anonymous	403 Forbidden
 authenticated()	invalid token	401 Unauthorized
 hasRole("USER")	valid token, wrong role	403 Forbidden
+
+
+
+HTTP Request
+ ↓
+Servlet Container (Tomcat)
+ ↓
+Registered Servlet Filters
+   ├── Custom Filter (if registered)
+   ├── DelegatingFilterProxy     Only ONE servlet filter is registered
+                                 That filter delegates to Spring-managed security filters
+   │     └── Spring Security Filter Chain
+   │           ├── Authentication filters
+   │           ├── Authorization filters
+   │           └── Security context filters
+ ↓
+DispatcherServlet
+ ↓
+Controller
+
+Servlet Container
+ ├── Filter A (auto-registered)
+ ├── Filter B (via FilterRegistrationBean)
+ └── DelegatingFilterProxy (Spring Security)
+
+
+@Bean
+public FilterRegistrationBean<MyFilter> myFilter() {
+    FilterRegistrationBean<MyFilter> frb = new FilterRegistrationBean<>();
+    frb.setFilter(new MyFilter());
+    frb.setEnabled(true);
+    return frb;
+}
+
+
+❌ Do NOT annotate the filter with @Component in this case
+
+
+OncePerRequestFilter is NOT a servlet filter by itself
+
+It becomes active only when added to Spring Security’s filter chain:
+
+http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+If you don’t add it to security:
+➡️ it does nothing
+
+
+
+
+Ordered.HIGHEST_PRECEDENCE = Integer.MIN_VALUE
+Ordered.LOWEST_PRECEDENCE  = Integer.MAX_VALUE
+Meaning
+Constant	Value	Behavior
+HIGHEST_PRECEDENCE	-2147483648	Runs FIRST
+LOWEST_PRECEDENCE	+2147483647	Runs LAST
+
+low values means Highest priority
+
+
+
+HIGHEST_PRECEDENCE filter → runs first    -2147483648(Bean)
+DelegatingFilterProxy (Security) → runs second  -100
+Custom FRB (order=1) → runs third
+Auto @Component → runs last                +26123434 LOWEST_PRECEDENCE (Integer.MAX_VALUE)
+                                                     Last
+
+
+Annotation	Purpose
+@EnableWebSecurity	Enable Spring Security + allow custom config
+@Configuration	Just marks a class as a Spring bean provider
+@EnableGlobalMethodSecurity	Enable @PreAuthorize etc. on methods

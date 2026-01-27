@@ -1,19 +1,19 @@
 package com.lnreddy.friendly_ecommerce.user.infrastracture.persistence.entity;
 
+import com.lnreddy.friendly_ecommerce.shared.audit.AbstractAuditingEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.UUID;
 
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity extends AbstractAuditingEntity<UUID> {
 
 
     @Id
