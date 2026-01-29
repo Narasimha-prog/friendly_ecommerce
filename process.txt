@@ -80,7 +80,7 @@ mvn clean verify sonar:sonar \
 mvn sonar:sonar \
   -Dsonar.projectKey=friendly_ecommerce \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=sqp_72b495fa33256b05d6766bb9314b1ecadbbd118d
+  -Dsonar.login=sqp_73d5f2758b1d2b29b90e7b2e3d5cc5049016085a
 
 
 
@@ -177,3 +177,30 @@ Annotation	Purpose
 @EnableWebSecurity	Enable Spring Security + allow custom config
 @Configuration	Just marks a class as a Spring bean provider
 @EnableGlobalMethodSecurity	Enable @PreAuthorize etc. on methods
+
+
+ --for config properties--
+allowed-origins	kebab-case	✅
+allowedOrigins	camelCase	❌
+allowed_origins	snake_case	❌
+AllowedOrigins	PascalCase	❌
+Allowed-Origins	Upper kebab-case	❌
+allowedOrigIns	mixed case	❌
+
+
+          Client
+            |
+       Coordinating Node
+            |
+   +--------+--------+
+   |        |        |
+Data Node1 Data Node2 Data Node3
+   |        |        |
+ Master Node (1 elected)
+
+
+http://localhost:9200/_cat/indices?v  for es
+
+http://localhost:5601  fo kibana
+
+||| ---> | insert click to change

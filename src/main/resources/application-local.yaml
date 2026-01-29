@@ -5,3 +5,15 @@ spring:
      username: lnreddy
      password: lnreddy
      url: jdbc:mysql://localhost:3307/ecommerce
+
+
+application:
+  client-base-url: "*"
+  cors:
+    allowed-origins:
+      - "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "*"
+    allow-credentials: false
+    max-age: 300

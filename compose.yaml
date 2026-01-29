@@ -33,6 +33,9 @@ services:
         - discovery.type=single-node
         - ES_JAVA_OPTS=-Xms1g -Xmx1g
         - ELASTIC_PASSWORD=lnreddy
+        - xpack.security.enabled=true
+        - xpack.security.http.ssl.enabled=false
+
       ports:
         - "9200:9200"
       volumes:
@@ -53,7 +56,7 @@ services:
         environment:
           ELASTICSEARCH_HOSTS: http://elasticsearch:9200
           ELASTICSEARCH_USERNAME: kibana_system
-          ELASTICSEARCH_PASSWORD: BsY2VGkG1zgQtoA5GyES
+          ELASTICSEARCH_PASSWORD: K+TKGlaBx+r_-sfDKKJY
         networks:
           - elk-network
 
