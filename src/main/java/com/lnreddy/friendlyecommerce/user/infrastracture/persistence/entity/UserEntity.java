@@ -1,6 +1,9 @@
 package com.lnreddy.friendlyecommerce.user.infrastracture.persistence.entity;
 
 import com.lnreddy.friendlyecommerce.shared.audit.AbstractAuditingEntity;
+import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Address;
+import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Name;
+import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.PhoneNumber;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;
@@ -29,6 +32,21 @@ public class UserEntity extends AbstractAuditingEntity<UUID> {
     @Column(nullable = false)
     private String hashedPassword;
 
+
+    private String name;
+
+
+    private String phoneNumber;
+
+
+     private String street;
+
+
+     private  String city;
+
+     private  String postalCode;
+
+     private  String country;
 
 }
 
