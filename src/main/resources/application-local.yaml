@@ -18,6 +18,6 @@ application:
     allow-credentials: false
     max-age: 300
 
-  jwt:
-     secret: MyVeryStrongSecretKeyThatIsAtLeast32BytesLong!!
-     expiration: 3600000
+jwt:
+  secret: MyVeryStrongSecretKeyThatIsAtLeast32BytesLong!!
+  expiration: 360000

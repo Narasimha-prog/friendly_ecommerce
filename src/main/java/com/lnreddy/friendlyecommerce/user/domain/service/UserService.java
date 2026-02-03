@@ -1,14 +1,12 @@
 package com.lnreddy.friendlyecommerce.user.domain.service;
 
-import com.lnreddy.friendlyecommerce.user.application.mapper.UserMapper;
+import com.lnreddy.friendlyecommerce.user.domain.exception.EmailIsAlreadyExisted;
 import com.lnreddy.friendlyecommerce.user.domain.exception.UserNotFound;
 import com.lnreddy.friendlyecommerce.user.domain.model.aggrigate.User;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Email;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.UserId;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IPasswordHasher;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IUserRepository;
-
-import java.util.UUID;
 
 public class UserService {
 
@@ -27,7 +25,7 @@ public class UserService {
     public User register(User newUser) {
 
         if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email already registered");
+            throw new EmailIsAlreadyExisted("Email already registered");
         }
 
 

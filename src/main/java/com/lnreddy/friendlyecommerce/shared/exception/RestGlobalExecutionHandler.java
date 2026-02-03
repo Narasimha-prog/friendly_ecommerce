@@ -1,10 +1,10 @@
 package com.lnreddy.friendlyecommerce.shared.exception;
 
+import com.lnreddy.friendlyecommerce.user.domain.exception.EmailIsAlreadyExisted;
 import com.lnreddy.friendlyecommerce.user.domain.exception.RoleNotFound;
 import com.lnreddy.friendlyecommerce.user.domain.exception.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-public class RestExecutionHandler {
+public class RestGlobalExecutionHandler {
+
+
+    @ExceptionHandler(EmailIsAlreadyExisted.class)
+    public ResponseEntity<String> handleEmailAlreadyExisted(EmailIsAlreadyExisted ex) {
+        log.warn("This Email existed with Another User reason={}", ex.getMessage());
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
 
     @ExceptionHandler(RoleNotFound.class)
     public ResponseEntity<String> handleUserNotFound(RoleNotFound ex) {

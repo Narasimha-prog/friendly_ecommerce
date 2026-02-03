@@ -39,9 +39,9 @@ public class UserController implements IUserController {
         this.userApplicationService = userApplicationService;
         this.jwtExpireTime = jwtExpireTime;
     }
-    // -----------------------------
+
     // Register a new user
-    // -----------------------------
+
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user and returns the user details")
     public ResponseEntity<UserView> register(@RequestBody RegisterUserRequest request) {
@@ -52,9 +52,8 @@ public class UserController implements IUserController {
         return ResponseEntity.created(uri).body(userView);
     }
 
-    // -----------------------------
     // Find user by ID
-    // -----------------------------
+
     @Operation(summary = "Find user using user-id", description = "Fetches the user details by their unique UUID")
     @GetMapping("/{id}")
 
@@ -63,27 +62,20 @@ public class UserController implements IUserController {
         return ResponseEntity.ok(userView);
     }
 
-    // -----------------------------
-    // Authenticate user (validate credentials)
-    // -----------------------------
-    @Operation(summary = "Authenticate user", description = "Validates user credentials")
-    @PostMapping("/authenticate")
-    public ResponseEntity<UserView> authenticate(@RequestBody AuthUserRequest request) {
-        log.info("Request to UserController : {} ",request.email());
-        UserView userView = userApplicationService.authenticateUser(request.email(), request.password());
-        return ResponseEntity.ok(userView);
-    }
 
 
+    // Login user
     @PostMapping("/login")
+    @Operation(summary = "login user", description = "login user to get jwt token")
     public  ResponseEntity<AuthUserResponse> login(@RequestBody AuthUserRequest request) {
         log.info("USER_LOGIN_REQUEST email={}", request.email());
         UserView userView = userApplicationService.authenticateUser(request.email(), request.password());// check password
         Set<String> roles=userApplicationService.rolesFromUserId(UUID.fromString(userView.userId()));
         String token = jwtUtil.generateToken(userView.email(), roles);
+        long now=System.currentTimeMillis();
         log.info("USER_LOGIN_SUCCESS userId={}", userView.userId());
         return ResponseEntity.ok().body(
-                new AuthUserResponse(token,"Bearer",jwtExpireTime)
+                new AuthUserResponse(token,"Bearer",jwtExpireTime,now)
         );  // generate JWT
     }
 
