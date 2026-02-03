@@ -8,6 +8,8 @@ import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.UserId;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IPasswordHasher;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IUserRepository;
 
+import java.util.UUID;
+
 public class UserService {
 
     private final IUserRepository userRepository;
@@ -37,6 +39,7 @@ public class UserService {
     // ✅ credential validation coordination
     public User validateCredentials(Email email, String rawPassword) {
 
+
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
@@ -59,4 +62,7 @@ public class UserService {
                 () -> new UserNotFound("There is no user with this email id : "+email.value())
         );
     }
+
+
+
 }

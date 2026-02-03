@@ -15,7 +15,7 @@ public record PhoneNumber(String value) {
             throw new InvalidPhoneNumberException("Phone number cannot be null or blank");
         }
 
-        String normalized = value.replaceAll("\\s+", "");
+        String normalized = value.replaceAll("[^\\d+]", "");
 
         if (!PHONE_PATTERN.matcher(normalized).matches()) {
             throw new InvalidPhoneNumberException("Invalid phone number format: " + value);

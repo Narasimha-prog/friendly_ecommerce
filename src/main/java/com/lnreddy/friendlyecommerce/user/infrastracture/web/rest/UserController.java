@@ -1,16 +1,21 @@
 package com.lnreddy.friendlyecommerce.user.infrastracture.web.rest;
 
+import com.lnreddy.friendlyecommerce.shared.util.JwtUtil;
 import com.lnreddy.friendlyecommerce.user.application.UserApplicationService;
 import com.lnreddy.friendlyecommerce.user.application.dio.AuthUserRequest;
+import com.lnreddy.friendlyecommerce.user.application.dio.AuthUserResponse;
 import com.lnreddy.friendlyecommerce.user.application.dio.RegisterUserRequest;
 import com.lnreddy.friendlyecommerce.user.application.dio.UserView;
 import com.lnreddy.friendlyecommerce.user.domain.port.in.IUserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -19,20 +24,32 @@ import java.util.UUID;
 @Tag(name = "User Management", description = "Operations for users")
 public class UserController implements IUserController {
 
+
+    private final long  jwtExpireTime;
+    private final JwtUtil jwtUtil;
     private final UserApplicationService userApplicationService;
 
-    public UserController(UserApplicationService userApplicationService) {
-        this.userApplicationService = userApplicationService;
-    }
 
+    public UserController(
+            JwtUtil jwtUtil,
+            UserApplicationService userApplicationService,
+            @Value("${jwt.expiration}") long jwtExpireTime
+    ) {
+        this.jwtUtil = jwtUtil;
+        this.userApplicationService = userApplicationService;
+        this.jwtExpireTime = jwtExpireTime;
+    }
     // -----------------------------
     // Register a new user
     // -----------------------------
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user and returns the user details")
     public ResponseEntity<UserView> register(@RequestBody RegisterUserRequest request) {
+        log.info("USER_REGISTER_REQUEST email={}", request.email());
         UserView userView = userApplicationService.registerUser(request);
-        return ResponseEntity.ok(userView);
+        URI uri = URI.create("/users/" + userView.userId());
+        log.info("USER_REGISTER_SUCCESS userId={}", userView.userId());
+        return ResponseEntity.created(uri).body(userView);
     }
 
     // -----------------------------
@@ -52,9 +69,22 @@ public class UserController implements IUserController {
     @Operation(summary = "Authenticate user", description = "Validates user credentials")
     @PostMapping("/authenticate")
     public ResponseEntity<UserView> authenticate(@RequestBody AuthUserRequest request) {
-        log.info("Request to UserController : {} - {}",request.email(),request.password());
+        log.info("Request to UserController : {} ",request.email());
         UserView userView = userApplicationService.authenticateUser(request.email(), request.password());
         return ResponseEntity.ok(userView);
+    }
+
+
+    @PostMapping("/login")
+    public  ResponseEntity<AuthUserResponse> login(@RequestBody AuthUserRequest request) {
+        log.info("USER_LOGIN_REQUEST email={}", request.email());
+        UserView userView = userApplicationService.authenticateUser(request.email(), request.password());// check password
+        Set<String> roles=userApplicationService.rolesFromUserId(UUID.fromString(userView.userId()));
+        String token = jwtUtil.generateToken(userView.email(), roles);
+        log.info("USER_LOGIN_SUCCESS userId={}", userView.userId());
+        return ResponseEntity.ok().body(
+                new AuthUserResponse(token,"Bearer",jwtExpireTime)
+        );  // generate JWT
     }
 
 }

@@ -17,3 +17,7 @@ application:
     exposed-headers: "*"
     allow-credentials: false
     max-age: 300
+
+  jwt:
+     secret: MyVeryStrongSecretKeyThatIsAtLeast32BytesLong!!
+     expiration: 3600000

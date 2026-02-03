@@ -7,6 +7,7 @@ import com.lnreddy.friendlyecommerce.user.infrastracture.persistence.entity.User
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserRepositoryAdapter implements IUserRepository {
@@ -46,15 +47,20 @@ public class UserRepositoryAdapter implements IUserRepository {
                         new Password(entity.getHashedPassword())
 
                         );
-     if(!(entity.getName() ==null)) user.updateName(new Name(entity.getName()));
-Address newAddress=null;
+     if(entity.getName() !=null) user.updateName(new Name(entity.getName()));
 
-   if(entity.getCity()) user.updateAddress(new Address(
-            entity.getStreet(),
-            entity.getCity(),
-            entity.getPostalCode(),
-            entity.getCountry()
-    ));
+     if (entity.getStreet() != null &&
+                entity.getCity() != null &&
+                entity.getPostalCode() != null &&
+                entity.getCountry() != null)
+
+            user.updateAddress(new Address(
+                    entity.getStreet(),
+                    entity.getCity(),
+                    entity.getPostalCode(),
+                    entity.getCountry()
+            ));
+
 
 
         return user;
@@ -65,6 +71,7 @@ Address newAddress=null;
                 user.getId().value(),
                 user.getEmail().value(),
                 user.getPassword().hashed() ,
+                user.getRole().stream().map(Role::roleStatus).collect(Collectors.toSet()),
                 null,
                 null,
                 null,

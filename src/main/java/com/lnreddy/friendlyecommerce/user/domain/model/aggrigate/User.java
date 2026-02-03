@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.Instant;
 import java.util.Set;
 
-
+@SuppressWarnings(value = {"java:S1450","java:S1068"})
 public class User {
 
     @Getter
@@ -22,7 +22,7 @@ public class User {
 
     private static final String EMAIL_NOT_NULL_MSG = "Email must not be null";
     @Getter
-    private Set<Role> role = Set.of(new Role(UserRoleStatus.USER_ROLE));
+    private Set<Role> role = Set.of(new Role(UserRoleStatus.USER));
     @Getter
     private Instant createdDate;
     @Getter
@@ -71,9 +71,9 @@ public class User {
                 )
         );
 
-           if(!(name ==null))  newUser.updateName(name);
-           if(!(phoneNumber == null)) newUser.updatePhoneNumber(phoneNumber);
-           if(!(address ==null)) newUser.updateAddress(address);
+           if(name !=null)  newUser.updateName(name);
+           if(phoneNumber != null) newUser.updatePhoneNumber(phoneNumber);
+           if(address!=null) newUser.updateAddress(address);
         return newUser;
     }
 
@@ -98,6 +98,7 @@ public class User {
     public void updateName(Name name){
         assertNotNull(name,"Name is not be null");
         this.name=name;
+        this.updatedDate=Instant.now();
     }
     public boolean validatePassword(
             String rawPassword,
@@ -115,6 +116,7 @@ public class User {
     public void changeEmail(Email newEmail) {
         assertNotNull(newEmail, EMAIL_NOT_NULL_MSG);
         this.email = newEmail;
+        this.updatedDate=Instant.now();
     }
 
     private static void assertNotNull(Object value, String message) {

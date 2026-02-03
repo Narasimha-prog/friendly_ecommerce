@@ -204,3 +204,27 @@ http://localhost:9200/_cat/indices?v  for es
 http://localhost:5601  fo kibana
 
 ||| ---> | insert click to change
+
+
+users table          user_roles table
++----+------+        +---------+------+
+| id | ...  | <----> | user_id | role |
++----+------+        +---------+------+
+
+
+mpv
+ └─ calls ytdl_hook
+      └─ runs yt-dlp with the video URL
+           ├─ reads Firefox cookies (identity)
+           ├─ optionally exports cookies to cookies.txt
+           ├─ sends HTTP requests to youtube.com with:
+           │     ├─ Cookie: SID=..., HSID=..., YSC...
+           │     ├─ User-Agent: Android / Browser
+           │     └─ client type (android)
+           ├─ YouTube validates session and bot checks
+           ├─ YouTube responds with direct media URLs (signed video/audio)
+           └─ yt-dlp pipes URLs back to mpv
+mpv
+ └─ receives the direct video/audio URLs from yt-dlp
+      ├─ streams video/audio from Google’s media servers
+      └─ decodes and plays in real time

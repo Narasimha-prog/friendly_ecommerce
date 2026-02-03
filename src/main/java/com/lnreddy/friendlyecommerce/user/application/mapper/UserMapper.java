@@ -23,7 +23,7 @@ public class UserMapper {
     public static User fromRegisterUserRequest(RegisterUserRequest registerUserRequest,
                                                IPasswordHasher iPasswordHasher) {
          return User.register(
-                 new Email(registerUserRequest.name()),
+                 new Email(registerUserRequest.email()),
                  registerUserRequest.password(),
                  iPasswordHasher,
                  new Name(registerUserRequest.name()),

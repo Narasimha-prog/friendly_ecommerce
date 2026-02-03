@@ -4,8 +4,12 @@ import com.lnreddy.friendlyecommerce.shared.audit.AbstractAuditingEntity;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Address;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Name;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.PhoneNumber;
+import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.UserRoleStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -32,6 +36,14 @@ public class UserEntity extends AbstractAuditingEntity<UUID> {
     @Column(nullable = false)
     private String hashedPassword;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id")
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<UserRoleStatus> roleStatusSet = new HashSet<>();
 
     private String name;
 
