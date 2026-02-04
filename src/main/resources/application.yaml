@@ -36,3 +36,9 @@ logging:
     name: /var/log/ecommerce/application.log
   level:
     root: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans,conditions,env

@@ -6,6 +6,8 @@ spring:
      password: lnreddy
      url: jdbc:mysql://localhost:3307/ecommerce
 
+#   main:
+#     log-startup-info: true
 
 application:
   client-base-url: "*"
@@ -21,3 +23,10 @@ application:
 jwt:
   secret: MyVeryStrongSecretKeyThatIsAtLeast32BytesLong!!
   expiration: 360000
+
+
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+#    org.springframework.beans.factory.support: DEBUG
+#    org.springframework.boot.autoconfigure: DEBUG

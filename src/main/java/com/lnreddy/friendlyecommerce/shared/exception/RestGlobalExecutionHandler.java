@@ -1,6 +1,7 @@
 package com.lnreddy.friendlyecommerce.shared.exception;
 
 import com.lnreddy.friendlyecommerce.user.domain.exception.EmailIsAlreadyExisted;
+import com.lnreddy.friendlyecommerce.user.domain.exception.InvalidEmailException;
 import com.lnreddy.friendlyecommerce.user.domain.exception.RoleNotFound;
 import com.lnreddy.friendlyecommerce.user.domain.exception.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class RestGlobalExecutionHandler {
 
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException ex){
+
+        log.warn("This Invalid email or password reason={}", ex.getMessage());
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
+
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<String> handleInvalidEmailException(InvalidEmailException ex){
+
+        log.warn("This Invalid email reason={}", ex.getMessage());
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
+    }
 
     @ExceptionHandler(EmailIsAlreadyExisted.class)
     public ResponseEntity<String> handleEmailAlreadyExisted(EmailIsAlreadyExisted ex) {

@@ -1,5 +1,6 @@
 package com.lnreddy.friendlyecommerce.user.domain.service;
 
+import com.lnreddy.friendlyecommerce.shared.exception.InvalidCredentialsException;
 import com.lnreddy.friendlyecommerce.user.domain.exception.EmailIsAlreadyExisted;
 import com.lnreddy.friendlyecommerce.user.domain.exception.UserNotFound;
 import com.lnreddy.friendlyecommerce.user.domain.model.aggrigate.User;
@@ -42,7 +43,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
         if (!user.validatePassword(rawPassword, passwordHasher)) {
-            throw new IllegalArgumentException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
 
         return user;

@@ -1,0 +1,33 @@
+Spring / Application Logging Levels — Meaning & Usage
+------------------------------------------------------------
+Level	Verbosity    	What it Covers	   Typical Examples	      When to Us
+TRACE	🔊 Highest	  Internal flow & lifecycle	Bean creation, dependency wiring, method entry/exit, classpath scanning	Deep framework debugging, learning Spring internals
+DEBUG	🔍 High	Decision making & configuration	Auto-config decisions, security rules, SQL execution, condition matches	Debugging logic/config issues
+INFO	ℹ️ Normal	Normal application flow	App startup, user login success, order placed	Day-to-day runtime visibility
+WARN	⚠️ Low	Unexpected but handled problems	Invalid input, deprecated API use, fallback logic	Signal potential issues without breaking flow
+ERROR	❌ Lowest	System / unrecoverable errors	Exceptions, DB down, authentication failure
+
+
+TRACE → How the framework works internally
+DEBUG → Why a decision was taken
+INFO  → What the application is doing
+WARN  → Something odd happened, but we recovered
+ERROR → Something broke and needs attention
+
+
+Production guidance (important)
+Environment	Recommended Levels
+Local dev	TRACE / DEBUG (selective)
+QA / Staging	DEBUG / INFO
+Production	INFO / WARN / ERROR only
+
+
+TRACE → bean creation / lifecycle
+
+DEBUG → decisions
+
+INFO → normal flow
+
+WARN → unexpected but non-critical
+
+ERROR → internal/system failure
