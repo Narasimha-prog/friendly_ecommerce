@@ -1,10 +1,7 @@
 package com.lnreddy.friendlyecommerce.user.infrastracture.persistence.entity;
 
 import com.lnreddy.friendlyecommerce.shared.audit.AbstractAuditingEntity;
-import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Address;
-import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Name;
-import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.PhoneNumber;
-import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.UserRoleStatus;
+import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.RoleStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,7 +40,7 @@ public class UserEntity extends AbstractAuditingEntity<UUID> {
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Set<UserRoleStatus> roleStatusSet = new HashSet<>();
+    private Set<RoleStatus> roleStatusSet = new HashSet<>();
 
     private String name;
 

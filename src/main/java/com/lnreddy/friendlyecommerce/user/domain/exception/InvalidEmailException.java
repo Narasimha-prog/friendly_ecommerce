@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 public class InvalidEmailException extends RuntimeException {
 
     private final HttpStatus status;
+
+    private final String field="email";
+
     public InvalidEmailException(String value) {
 
         super("Invalid email address: " + value);

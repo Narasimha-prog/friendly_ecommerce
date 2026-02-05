@@ -22,7 +22,7 @@ public class User {
 
     private static final String EMAIL_NOT_NULL_MSG = "Email must not be null";
     @Getter
-    private Set<Role> role = Set.of(new Role(UserRoleStatus.USER));
+    private Set<Role> role = Set.of(new Role(RoleStatus.USER));
     @Getter
     private Instant createdDate;
     @Getter
