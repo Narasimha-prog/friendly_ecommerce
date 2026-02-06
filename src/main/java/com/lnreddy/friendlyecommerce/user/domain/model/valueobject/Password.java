@@ -6,7 +6,9 @@ import com.lnreddy.friendlyecommerce.user.domain.port.out.IPasswordHasher;
 
 public record Password(String hashed) {
 
+
     public static Password fromPlainText(String raw, IPasswordHasher encoder) {
+
         if (raw.length() < 8)  throw new WeakPasswordException();
 
         return new Password(encoder.hash(raw));

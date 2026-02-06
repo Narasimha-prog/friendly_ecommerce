@@ -18,4 +18,9 @@ class EmailTest {
 
         assertThrows(InvalidEmailException.class, () -> new Email("invalid-email"));
     }
+    @Test
+    void shouldThrowExceptionForNull(){
+
+        assertThrows(InvalidEmailException.class,()-> new Email(null));
+    }
 }

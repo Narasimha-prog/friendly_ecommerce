@@ -6,7 +6,7 @@ public record Email(String value) {
 
     public Email {
 
-        if(!value.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+        if(value==null || !value.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
             throw new InvalidEmailException(value);
         }
 
