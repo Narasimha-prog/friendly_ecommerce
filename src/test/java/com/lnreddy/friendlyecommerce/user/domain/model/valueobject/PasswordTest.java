@@ -18,6 +18,7 @@ class PasswordTest {
         Password password = Password.fromPlainText("StrongPass", encoder);
 
         assertEquals("hashedPass", password.hashed());
+
         verify(encoder, times(1)).hash("StrongPass");
     }
 

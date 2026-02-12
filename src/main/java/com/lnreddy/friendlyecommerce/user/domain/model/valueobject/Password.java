@@ -1,11 +1,20 @@
 package com.lnreddy.friendlyecommerce.user.domain.model.valueobject;
 
+import com.lnreddy.friendlyecommerce.user.domain.exception.PlainTextPasswordNotAllowedException;
 import com.lnreddy.friendlyecommerce.user.domain.exception.WeakPasswordException;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IPasswordHasher;
 
 
 public record Password(String hashed) {
 
+    public Password(String hashed) {
+
+        if (hashed == null || hashed.isBlank()) {
+            throw new PlainTextPasswordNotAllowedException("");
+        }
+
+        this.hashed = hashed;
+    }
 
     public static Password fromPlainText(String raw, IPasswordHasher encoder) {
 
