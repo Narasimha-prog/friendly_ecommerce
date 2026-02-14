@@ -17,6 +17,7 @@ public class JwtUtil {
 
 
     private final Key key;
+
     private final long expirationMs;
 
 
@@ -51,9 +52,6 @@ public class JwtUtil {
         }
             catch(ExpiredJwtException e){
                 log.warn("Token expired",e);
-            }
-            catch(SignatureException e){
-                log.warn("Invalid signature",e);
             }
             catch(JwtException e){
                 log.warn("Invalid token",e);
