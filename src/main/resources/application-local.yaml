@@ -2,9 +2,9 @@
 
 spring:
    datasource:
-     username: lnreddy
-     password: lnreddy
-     url: jdbc:mysql://localhost:3307/ecommerce
+       username: ${DB_USERNAME}
+       password: ${DB_PASSWORD}
+       url: ${DB_URL}
 
 #   main:
 #     log-startup-info: true
@@ -21,7 +21,7 @@ application:
     max-age: 300
 
 jwt:
-  secret: MyVeryStrongSecretKeyThatIsAtLeast32BytesLong!!
+  secret: ${JWT_SECRET}
   expiration: 360000
 
 
