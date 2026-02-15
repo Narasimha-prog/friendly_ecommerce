@@ -40,10 +40,10 @@ public class UserService {
 
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidCredentialsException("email","Email is incorrect"));
 
         if (!user.validatePassword(rawPassword, passwordHasher)) {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("password","password is incorrect");
         }
 
         return user;

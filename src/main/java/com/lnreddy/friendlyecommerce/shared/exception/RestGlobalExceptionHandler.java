@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RestGlobalExceptionHandler {
 
 
+    @ExceptionHandler(WeakPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleWeakPasswordException (WeakPasswordException ex){
+
+        log.warn("Weak password  reason={}", ex.getMessage());
+
+        return ResponseEntity.status(ex.getStatus()).body(ErrorResponse.builder().message(ex.getMessage()).field(ex.getFiled()).build());
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException ex){
 
         log.warn("This Invalid email or password reason={}", ex.getMessage());
 
-        return ResponseEntity.status(ex.getStatus()).body(ErrorResponse.builder().message(ex.getMessage()).build());
+        return ResponseEntity.status(ex.getStatus()).body(ErrorResponse.builder().message(ex.getMessage()).field(ex.getField()).build());
     }
 
     @ExceptionHandler(InvalidAddressException.class)

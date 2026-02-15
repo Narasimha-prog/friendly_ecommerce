@@ -56,7 +56,9 @@ public class UserApplicationService {
 
     @Transactional(readOnly = true)
     public Set<String> rolesFromUserId(UUID userId){
+
        User user= userService.findByUserId(new UserId(userId));
+
        return user.getRole().stream().map(r->r.roleStatus().name()).collect(Collectors.toUnmodifiableSet());
     }
 }

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -54,6 +55,7 @@ public class UserController implements IUserController {
 
     // Find user by ID
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Find user using user-id", description = "Fetches the user details by their unique UUID")
     @GetMapping("/{id}")
 
