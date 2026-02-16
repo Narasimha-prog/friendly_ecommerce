@@ -46,6 +46,12 @@ public class UserApplicationService {
         return UserMapper.toUserView(user);
     }
 
+    @Transactional(readOnly = true)
+    public User findByUserEmail(String email){
+
+        return userService.findByUserEmailId(new Email(email));
+    }
+
 
 
     @Transactional(readOnly = true)

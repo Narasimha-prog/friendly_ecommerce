@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -54,12 +56,16 @@ public class UserController implements IUserController {
     }
 
     // Find user by ID
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Find user using user-id", description = "Fetches the user details by their unique UUID")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @Operation(summary = "Find user using user-id", description = "Fetches the user details by their unique UUID",
+            security = @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearerAuth"))
     @GetMapping("/{id}")
 
     public ResponseEntity<UserView> findById(@PathVariable UUID id) {
+        // Debug the current user's roles
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        assert auth != null;
+        auth.getAuthorities().forEach(a -> log.info("User role: {}", a.getAuthority()));
         UserView userView = userApplicationService.findByUserId(id);
         return ResponseEntity.ok(userView);
     }

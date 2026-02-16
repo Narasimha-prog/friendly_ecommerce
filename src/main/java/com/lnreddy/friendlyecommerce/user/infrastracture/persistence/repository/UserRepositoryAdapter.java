@@ -61,7 +61,9 @@ public class UserRepositoryAdapter implements IUserRepository {
                     entity.getCountry()
             ));
 
-
+    if(entity.getRoleStatusSet() != null){
+        user.updateRoles(entity.getRoleStatusSet().stream().map(Role::new).collect(Collectors.toUnmodifiableSet()));
+    }
 
         return user;
     }

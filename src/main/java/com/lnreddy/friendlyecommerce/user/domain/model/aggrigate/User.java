@@ -124,4 +124,12 @@ public class User {
             throw new IllegalArgumentException(message);
         }
     }
+
+    public void updateRoles(Set<Role> roles) {
+        assertNotNull(roles, "Roles must not be null");
+        this.role = Set.copyOf(roles); // creates an immutable copy
+        this.updatedDate = Instant.now();
+    }
+
+
 }

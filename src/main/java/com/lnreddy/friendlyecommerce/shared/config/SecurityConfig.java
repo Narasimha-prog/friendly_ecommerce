@@ -3,6 +3,7 @@ package com.lnreddy.friendlyecommerce.shared.config;
 import com.lnreddy.friendlyecommerce.shared.filters.JwtAuthenticationFilter;
 import com.lnreddy.friendlyecommerce.shared.security.CustomAuthenticationProvider;
 import com.lnreddy.friendlyecommerce.shared.util.JwtUtil;
+import com.lnreddy.friendlyecommerce.user.application.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,8 @@ public class SecurityConfig {
 
     private final CustomAuthenticationProvider authProvider;
 
+    private final UserApplicationService userApplicationService;
+
     private final JwtUtil jwtUtil;
 
     private static final String[] SWAGGER_WHITELIST = {
@@ -30,7 +33,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
-            "/v3/api-docs"
+            "/v3/api-docs",
+            "/webjars/swagger-ui/**"
     };
     private static final String[] ACTUATOR_WHITELIST = {
             "/actuator/health",
@@ -40,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)  {
         // Create the JWT filter
-        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil);
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil,userApplicationService);
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -50,8 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/users/register",
-                                "/users/authenticate"
-                                        ,"/users/**"
+                                "/users/login"
                         ).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(ACTUATOR_WHITELIST).permitAll()

@@ -31,6 +31,19 @@ spring:
     livereload:
       enabled: true
 
+  #for mails
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lnreddyreddy405@gmail.com
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   file:
     name: /var/log/ecommerce/application.log
