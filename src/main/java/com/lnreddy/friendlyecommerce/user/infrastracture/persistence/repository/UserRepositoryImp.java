@@ -4,21 +4,19 @@ import com.lnreddy.friendlyecommerce.user.domain.model.aggrigate.User;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.*;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IUserRepository;
 import com.lnreddy.friendlyecommerce.user.infrastracture.persistence.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class UserRepositoryAdapter implements IUserRepository {
+@RequiredArgsConstructor
+public class UserRepositoryImp implements IUserRepository {
 
-    private final SpringDataUserRepository repository;
+    private final ISpringDataUserRepository repository;
 
 
-    public UserRepositoryAdapter(SpringDataUserRepository repository) {
-        this.repository = repository;
-
-    }
 
     @Override
     public Optional<User> findById(UserId id) {

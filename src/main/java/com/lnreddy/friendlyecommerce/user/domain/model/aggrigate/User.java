@@ -131,5 +131,9 @@ public class User {
         this.updatedDate = Instant.now();
     }
 
+    public void changePassword(Password password){
+          this.password=password;
+    }
+
 
 }

@@ -1,11 +1,9 @@
 package com.lnreddy.friendlyecommerce.user.infrastracture.web.rest;
 
 import com.lnreddy.friendlyecommerce.shared.util.JwtUtil;
+import com.lnreddy.friendlyecommerce.user.application.PasswordRestApplicationService;
 import com.lnreddy.friendlyecommerce.user.application.UserApplicationService;
-import com.lnreddy.friendlyecommerce.user.application.dio.AuthUserRequest;
-import com.lnreddy.friendlyecommerce.user.application.dio.AuthUserResponse;
-import com.lnreddy.friendlyecommerce.user.application.dio.RegisterUserRequest;
-import com.lnreddy.friendlyecommerce.user.application.dio.UserView;
+import com.lnreddy.friendlyecommerce.user.application.dio.*;
 import com.lnreddy.friendlyecommerce.user.domain.port.in.IUserController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,15 +30,19 @@ public class UserController implements IUserController {
     private final JwtUtil jwtUtil;
     private final UserApplicationService userApplicationService;
 
+    private final PasswordRestApplicationService restApplicationService;
+
 
     public UserController(
             JwtUtil jwtUtil,
             UserApplicationService userApplicationService,
-            @Value("${jwt.expiration}") long jwtExpireTime
+            @Value("${jwt.expiration}") long jwtExpireTime,
+            PasswordRestApplicationService restApplicationService
     ) {
         this.jwtUtil = jwtUtil;
         this.userApplicationService = userApplicationService;
         this.jwtExpireTime = jwtExpireTime;
+        this.restApplicationService = restApplicationService;
     }
 
     // Register a new user
@@ -85,6 +87,25 @@ public class UserController implements IUserController {
         return ResponseEntity.ok().body(
                 new AuthUserResponse(token,"Bearer",jwtExpireTime,now)
         );  // generate JWT
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "for forget password",description = "to change password using email")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgetPasswordRequest request) {
+        restApplicationService.requestReset(request.email());
+        return ResponseEntity.ok("Reset link sent to email if it exists.");
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(summary = "for password  reset",description = "to change password using new email")
+    public ResponseEntity<Void> resetPassword(
+            @RequestBody ResetPasswordRequest request
+    ) {
+        restApplicationService.resetPassword(
+                request.token(),
+                request.newPassword()
+        );
+        return ResponseEntity.ok().build();
     }
 
 }

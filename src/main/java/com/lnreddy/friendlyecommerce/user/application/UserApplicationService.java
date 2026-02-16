@@ -5,7 +5,6 @@ import com.lnreddy.friendlyecommerce.user.application.dio.UserView;
 import com.lnreddy.friendlyecommerce.user.application.mapper.UserMapper;
 import com.lnreddy.friendlyecommerce.user.domain.model.aggrigate.User;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Email;
-import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.Role;
 import com.lnreddy.friendlyecommerce.user.domain.model.valueobject.UserId;
 import com.lnreddy.friendlyecommerce.user.domain.port.out.IPasswordHasher;
 import com.lnreddy.friendlyecommerce.user.domain.service.UserService;
@@ -20,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserApplicationService {
+
+
 
 
     private final UserService userService;
@@ -67,4 +68,6 @@ public class UserApplicationService {
 
        return user.getRole().stream().map(r->r.roleStatus().name()).collect(Collectors.toUnmodifiableSet());
     }
+
+
 }

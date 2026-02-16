@@ -1,6 +1,7 @@
 package com.lnreddy.friendlyecommerce.shared.mail;
 
 
+import com.lnreddy.friendlyecommerce.user.domain.port.out.IMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SmtpMailService implements MailService{
+public class SmtpMailService implements IMailService {
     private final JavaMailSender mailSender;
 
     @Override
